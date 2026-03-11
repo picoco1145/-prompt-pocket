@@ -1,6 +1,8 @@
 import {
   deletePrompt,
+  exportData,
   getStorageSnapshot,
+  importData,
   markPromptUsed,
   updateSettings,
   upsertPrompt,
@@ -433,6 +435,37 @@ async function ensureTagIdsFromInput() {
   }
   return ids;
 }
+
+async function handleExport() {
+  const data = await exportData();
+  const json = JSON.stringify(data, null, 2);
+  const blob = new Blob([json], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `prompt-pocket-${new Date().toISOString().slice(0, 10)}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+  showToast(`${data.prompts.length}개 프롬프트를 내보냈습니다.`);
+}
+
+async function handleImport(event) {
+  const file = event.target.files?.[0];
+  if (!file) return;
+  event.target.value = "";
+  try {
+    const text = await file.text();
+    const data = JSON.parse(text);
+    const result = await importData(data);
+    await refreshPrompts();
+    showToast(`가져오기 완료: 프롬프트 ${result.addedPrompts}개, 태그 ${result.addedTags}개 추가`);
+  } catch {
+    showToast("가져오기 실패: 올바른 Prompt Pocket JSON 파일을 선택해주세요.");
+  }
+}
+
+document.querySelector("#export-prompts")?.addEventListener("click", handleExport);
+document.querySelector("#import-file")?.addEventListener("change", handleImport);
 
 addPromptButton.addEventListener("click", handleAddPrompt);
 refreshPromptsButton.addEventListener("click", refreshPrompts);

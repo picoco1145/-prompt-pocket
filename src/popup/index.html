@@ -9,8 +9,16 @@
   <body>
     <main class="app">
       <header class="app__header">
-        <h1 class="app__title">Prompt Pocket</h1>
-        <p class="app__subtitle">MVP 스캐폴딩</p>
+        <div class="app__header-row">
+          <h1 class="app__title">Prompt Pocket</h1>
+          <div class="app__header-actions">
+            <button id="export-prompts" class="button button--ghost" title="내보내기">⬆️ 내보내기</button>
+            <label class="button button--ghost" title="가져오기" style="cursor:pointer;">
+              ⬇️ 가져오기
+              <input id="import-file" type="file" accept=".json" hidden />
+            </label>
+          </div>
+        </div>
       </header>
       <div id="toast" class="toast" hidden></div>
 

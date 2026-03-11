@@ -297,6 +297,47 @@ export async function setLastSavedPromptMeta(id) {
   return { lastSavedPromptId: id ?? null, lastSavedAt };
 }
 
+export async function exportData() {
+  const snapshot = await getStorageSnapshot();
+  return {
+    version: 1,
+    exportedAt: new Date().toISOString(),
+    prompts: snapshot.prompts,
+    tags: snapshot.tags
+  };
+}
+
+export async function importData(data) {
+  if (!data || !Array.isArray(data.prompts)) {
+    throw new Error("INVALID_FORMAT");
+  }
+  const snapshot = await getStorageSnapshot();
+
+  const existingTagIds = new Set(snapshot.tags.map((t) => t.id));
+  const mergedTags = [...snapshot.tags];
+  for (const tag of normalizeArray(data.tags)) {
+    if (!existingTagIds.has(tag.id)) {
+      mergedTags.push(tag);
+    }
+  }
+
+  const existingPromptIds = new Set(snapshot.prompts.map((p) => p.id));
+  const mergedPrompts = [...snapshot.prompts];
+  for (const prompt of data.prompts) {
+    if (!existingPromptIds.has(prompt.id)) {
+      mergedPrompts.push(prompt);
+    }
+  }
+
+  await saveTags(mergedTags);
+  await savePrompts(mergedPrompts);
+
+  return {
+    addedPrompts: mergedPrompts.length - snapshot.prompts.length,
+    addedTags: mergedTags.length - snapshot.tags.length
+  };
+}
+
 export function __resetMemoryStorageForTests() {
   memoryLocal = { ...DEFAULT_DATA };
   memorySync = {
