@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Prompt Pocket</title>
+    <link rel="stylesheet" href="./popup.css" />
+  </head>
+  <body>
+    <main class="app">
+      <header class="app__header">
+        <h1 class="app__title">Prompt Pocket</h1>
+        <p class="app__subtitle">MVP 스캐폴딩</p>
+      </header>
+      <div id="toast" class="toast" hidden></div>
+
+      <section class="card">
+        <div class="card__row">
+          <h2 class="card__title">프롬프트 목록</h2>
+          <button id="refresh-prompts" class="button button--ghost">새로고침</button>
+        </div>
+        <div class="field__row list-controls">
+          <input id="prompt-search" type="search" placeholder="제목/내용 검색" />
+          <select id="prompt-sort">
+            <option value="recent">최근 수정</option>
+            <option value="usage">사용 횟수</option>
+            <option value="title">제목순</option>
+          </select>
+        </div>
+        <div id="tag-filter-list" class="tag-filter"></div>
+        <ul id="prompt-list" class="list"></ul>
+      </section>
+
+      <section class="card">
+        <h2 class="card__title">프롬프트 추가/수정</h2>
+        <label class="field">
+          <span class="field__label">제목</span>
+          <input id="prompt-title" type="text" placeholder="예: 번역 요청" />
+        </label>
+        <label class="field">
+          <span class="field__label">내용</span>
+          <textarea id="prompt-content" rows="3" placeholder="예: 영어로 번역: Hello"></textarea>
+        </label>
+        <label class="field">
+          <span class="field__label">태그(쉼표 구분)</span>
+          <input id="prompt-tags" type="text" placeholder="예: 번역,업무" />
+        </label>
+        <button id="add-prompt" class="button">저장</button>
+      </section>
+
+    </main>
+
+    <script type="module" src="./popup.js"></script>
+  </body>
+</html>

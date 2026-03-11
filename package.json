@@ -1,0 +1,12 @@
+{
+  "name": "prompt-pocket",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "echo '아직 dev 빌드 스크립트가 없습니다.'",
+    "build": "echo '아직 build 스크립트가 없습니다.'",
+    "lint": "echo '아직 lint 스크립트가 없습니다.'",
+    "test": "node tests/storage.test.js"
+  }
+}

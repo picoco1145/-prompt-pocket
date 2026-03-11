@@ -1,0 +1,15 @@
+{
+  "manifest_version": 3,
+  "name": "Prompt Pocket",
+  "version": "0.1.0",
+  "description": "자주 사용하는 프롬프트를 저장하고 빠르게 복사하는 확장 프로그램",
+  "permissions": ["storage", "contextMenus", "clipboardWrite"],
+  "action": {
+    "default_title": "Prompt Pocket",
+    "default_popup": "src/popup/index.html"
+  },
+  "background": {
+    "service_worker": "src/background/service-worker.js",
+    "type": "module"
+  }
+}
